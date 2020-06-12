@@ -12,11 +12,10 @@
 
 using namespace std;
 
-int fingers[2];
-int scores[2];
-
 void *server_receive(void *data) //клиент отправляет
 {
+    int fingers[2];
+    int scores[2];
     int sock = *((int *)data);
     char message[70];
     char status;
@@ -75,9 +74,7 @@ void client(char *ip_port, int isBot)
     }
     addr.sin_family = AF_INET;   //Internet-домен
     addr.sin_port = htons(port); // Порт
-    addr.sin_addr.s_addr = inet_addr(ip_port);
-    cout << ip_port << endl;
-    cout << port << endl;                                          //ip
+    addr.sin_addr.s_addr = inet_addr(ip_port);                                       //ip
     if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) //	Установить соединение
     {
         perror("Ошибка подключения");

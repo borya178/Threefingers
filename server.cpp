@@ -36,6 +36,7 @@ int findSocket() //поиск свободного сокета
             return i;
         }
     }
+    return -1;
 }
 
 void *client_receive(void *data) //Сервер отправляет
@@ -44,6 +45,12 @@ void *client_receive(void *data) //Сервер отправляет
     send(clients[player->id]->socket, &player->id, sizeof(player->id), 0); //отправляем номер игрока клиенту
     int summa;
     int round_count = player->round_count;
+
+    while (findSocket() != -1)
+    {
+        sleep(1);
+    }
+    
 
     while (true)
     {
