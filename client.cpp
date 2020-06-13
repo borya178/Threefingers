@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void *server_receive(void *data) //клиент отправляет
+void *client_receive(void *data) //клиент получает
 {
     int fingers[2];
     int scores[2];
@@ -83,7 +83,7 @@ void client(char *ip_port, int isBot)
     else if (isBot)
     {
         pthread_t thread;                                     //идентификатор потока
-        pthread_create(&thread, NULL, server_receive, &sock); //создаем поток
+        pthread_create(&thread, NULL, client_receive, &sock); //создаем поток
         sleep(1);                                             //задержка перед отправкой сообщения
         while (true)
         {
@@ -96,7 +96,7 @@ void client(char *ip_port, int isBot)
     else
     {
         pthread_t thread;
-        pthread_create(&thread, NULL, server_receive, &sock);
+        pthread_create(&thread, NULL, client_receive, &sock);
         while (true)
         {
             int buffer;

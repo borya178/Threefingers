@@ -39,7 +39,7 @@ int findSocket() //поиск свободного сокета
     return -1;
 }
 
-void *client_receive(void *data) //Сервер отправляет
+void *server_send(void *data) //Сервер отправляет
 {
     Client *player = (Client *)data;
     send(clients[player->id]->socket, &player->id, sizeof(player->id), 0); //отправляем номер игрока клиенту
@@ -50,7 +50,6 @@ void *client_receive(void *data) //Сервер отправляет
     {
         sleep(1);
     }
-    
 
     while (true)
     {
@@ -79,6 +78,7 @@ void *client_receive(void *data) //Сервер отправляет
                     send(clients[i]->socket, message, sizeof(message), 0); //отправляем сообщение с победителем
                 }
             }
+            cout << "Конец игры. Завершение работы." << endl;
             close(clients[0]->socket); //закрывает соединение с сокетом
             close(clients[1]->socket); //закрывает соединение с сокетом
             exit(0);                   //выход
@@ -192,7 +192,7 @@ void server(int port, int n)
             user->id = id;
             user->round_count = n;
             clients[id] = user;
-            pthread_create(&user->thread, NULL, client_receive, user);
+            pthread_create(&user->thread, NULL, server_send, user);
         }
     }
 }
